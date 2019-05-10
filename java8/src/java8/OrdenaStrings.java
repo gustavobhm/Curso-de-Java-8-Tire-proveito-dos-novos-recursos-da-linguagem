@@ -1,9 +1,7 @@
 package java8;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class OrdenaStrings {
 
@@ -14,38 +12,20 @@ public class OrdenaStrings {
 		palavras.add("casa do código");
 		palavras.add("caelum");
 
-		Comparator<String> comparador = new ComparadorDeStringPorTamanho();
+		palavras.sort((s1, s2) -> {
+			if (s1.length() < s2.length())
+				return -1;
+			if (s1.length() > s2.length())
+				return 1;
+			return 0;
+		});
 
-		// Collections.sort(palavras, comparador);
-		palavras.sort(comparador);
+		palavras.sort((s1, s2) -> s1.length() - s2.length());
+
 		System.out.println(palavras);
 
-//		for (String p : palavras) {
-//			System.out.println(p);
-//		}
+		palavras.forEach(palavra -> System.out.println(palavra));
 
-		Consumer<String> consumidor = new ImprimeNaLinha();
-		palavras.forEach(consumidor);
-
-	}
-
-}
-
-class ImprimeNaLinha implements Consumer<String> {
-	public void accept(String s) {
-		System.out.println(s);
-	}
-}
-
-class ComparadorDeStringPorTamanho implements Comparator<String> {
-
-	@Override
-	public int compare(String s1, String s2) {
-		if (s1.length() < s2.length())
-			return -1;
-		if (s1.length() > s2.length())
-			return 1;
-		return 0;
 	}
 
 }
