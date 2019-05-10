@@ -35,6 +35,7 @@ public class OrdenaStrings {
 		System.out.println(palavras);
 
 		palavras.forEach(palavra -> System.out.println(palavra));
+
 		palavras.forEach(System.out::println);
 
 	}
