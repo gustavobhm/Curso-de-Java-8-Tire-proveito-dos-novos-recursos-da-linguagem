@@ -3,6 +3,8 @@ package java8;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 class Curso {
 
@@ -34,24 +36,48 @@ public class ExemploCursos {
 		cursos.add(new Curso("C", 55));
 
 		cursos.sort(Comparator.comparingInt(Curso::getAlunos));
-		
+
 //		cursos.stream()
 //		   .filter(c -> c.getAlunos() > 50)
 //		   .forEach(c -> System.out.println(c.getNome()));
-		
+
 //		Stream<String> nomes = cursos.stream().map(Curso::getNome);
-		
+
 //		cursos.stream()
 //		   .filter(c -> c.getAlunos() > 50)
 //		   .map(Curso::getAlunos)
 //		   .forEach(System.out::println);		
 
-		int sum = cursos.stream() //
+		OptionalDouble media = cursos.stream() //
 				.filter(c -> c.getAlunos() >= 100) //
 				.mapToInt(Curso::getAlunos) //
-				.sum();
+				.average();
 
-		System.out.println(sum);
+		// System.out.println(media);
+
+//		Optional<Curso> optional = cursos.stream() //
+//				.filter(c -> c.getAlunos() > 100) //
+//				.findAny();
+//
+//		Curso curso = optional.orElse(null);
+//
+//		optional.ifPresent(c -> System.out.println(c.getNome()));
+
+		cursos.stream() //
+				.filter(c -> c.getAlunos() > 100) //
+				.findAny() //
+				.ifPresent(c -> System.out.println(c.getNome()));
+
+		cursos = cursos.stream() //
+				.filter(c -> c.getAlunos() > 100) //
+				.collect(Collectors.toList());
+
+		cursos.parallelStream() //
+				.filter(c -> c.getAlunos() > 100) //
+				.collect(Collectors.toMap( //
+						c -> c.getNome(), //
+						c -> c.getAlunos())) //
+				.forEach((nome, alunos) -> System.out.println(nome + " tem " + alunos + " alunos"));
 
 	}
 
